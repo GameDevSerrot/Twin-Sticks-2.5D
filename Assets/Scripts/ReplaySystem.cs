@@ -3,8 +3,9 @@ using System.Collections;
 
 public class ReplaySystem: MonoBehaviour	{
 
-    private const int bufferFrames = 100;   //the number of frames we're storing
+    private const int bufferFrames = 1000;   //the number of frames we're storing
     private MyKeyFrame[] keyFrames = new MyKeyFrame[bufferFrames];
+    private GameManager manager;
 
     private Rigidbody rigidBody;
 
@@ -12,18 +13,25 @@ public class ReplaySystem: MonoBehaviour	{
 	void Start(){
 
         rigidBody = GetComponent<Rigidbody>();
-	
+        manager = GameObject.FindObjectOfType<GameManager>();
 	}
 
     //Update is called once per frame
     void Update()
     {
-        Record();
+        if (manager.recording)
+        {
+            Record();
+        }
+        else
+        {
+            PlayBack();
+        }
     }
 
     private void Record()
     {
-        rigidBody.isKinematic = true;
+        rigidBody.isKinematic = false;
         int frame = Time.frameCount % bufferFrames;
         float time = Time.time;
         print("Writing frame " + frame);
