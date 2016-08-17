@@ -3,7 +3,7 @@ using System.Collections;
 
 public class ReplaySystem: MonoBehaviour	{
 
-    private const int bufferFrames = 1000;   //the number of frames we're storing
+    private const int bufferFrames = 100;   //the number of frames we're storing
     private MyKeyFrame[] keyFrames = new MyKeyFrame[bufferFrames];
     private GameManager manager;
 
@@ -38,7 +38,7 @@ public class ReplaySystem: MonoBehaviour	{
         keyFrames[frame] = new MyKeyFrame(time, transform.position, transform.rotation);
     }
 
-    void PlayBack()
+    public void PlayBack()
     {
         rigidBody.isKinematic = true;
         int frame = Time.frameCount % bufferFrames;
